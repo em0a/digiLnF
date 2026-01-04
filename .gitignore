@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+/package-lock.json # optional, depending on team preference with npm v7+
+
+# Build artifacts
+/dist
+/build
+/out
+/coverage # Testing output
+/temp
+*.zip
+*.tar.gz
+
+# Environment variables
+.env
+.env.local
+
+# IDE and OS files
+.idea/ # JetBrains IDEs
+.vscode/
+*.suo
+*.user
+*.cas transform
+*.sap transform
+
+# OS-specific files
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# NPM debugging logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Other temporary files
+*.log
+.nyc_output/
