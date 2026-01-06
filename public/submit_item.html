@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Item - PUPSMB Digi-L&F</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Shared Variables */
+        :root {
+            --red: #8c1d18;
+            --red-hover: #a32620;
+            --glow: rgba(180, 40, 40, 0.6);
+            --glass: rgba(140, 29, 24, 0.2);
+            --glass-dark: rgba(0, 0, 0, 0.6);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --white: #ffffff;
+            --text-gray: rgba(255, 255, 255, 0.6);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            transition: all 0.3s ease;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--white);
+            background: #000;
+            overflow-x: hidden;
+        }
+
+        /* Background */
+        .background {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at center, rgba(255,255,255,0.05), rgba(0,0,0,0.9)),
+                linear-gradient(rgba(120,0,0,0.7), rgba(120,0,0,0.7)),
+                url('images/DSA.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Main Glass Container */
+        .main-card {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            gap: 60px;
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Left Side: Camera */
+        .camera-section {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            border: 2px solid var(--red);
+            background: #000;
+        }
+
+        video, img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-capture {
+            margin-top: 30px;
+            padding: 16px 40px;
+            border-radius: 30px;
+            border: 1px solid var(--border-light);
+            background: var(--red);
+            color: var(--white);
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px var(--glow);
+        }
+
+        .btn-capture:hover {
+            transform: translateY(-3px);
+            background: var(--red-hover);
+            box-shadow: 0 15px 35px var(--glow);
+        }
+
+        /* Right Side: Form */
+        .form-section {
+            width: 55%;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 50%, var(--red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            border: 1px solid var(--border-light);
+            outline: none;
+            background: var(--glass-dark);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--red);
+            background: rgba(0,0,0,0.9);
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        /* Standard Buttons */
+        .btn-submit {
+            margin-top: 20px;
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            border: none;
+            background: var(--red);
+            color: var(--white);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .btn-submit:hover {
+            background: var(--red-hover);
+            box-shadow: 0 15px 35px var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            margin-top: 25px;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .btn-cancel:hover { color: var(--white); }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 35px;
+            border: 1px solid var(--red);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(140,29,24,0.5);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .receipt-details {
+            text-align: left;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .receipt-details p {
+            margin: 10px 0;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 5px;
+        }
+
+        .receipt-details b { 
+            color: var(--red-hover); 
+            margin-right: 10px; 
+        }
+
+        .modal-content button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            border: none;
+            background: var(--red);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-content button:hover {
+            background: var(--red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px var(--glow);
+        }
+
+        #cancelSubmitBtn {
+            background: #222;
+            border: 1px solid var(--border-light);
+            color: var(--text-gray);
+            margin-top: 0; 
+        }
+        
+        #cancelSubmitBtn:hover {
+            background: #333;
+            color: var(--white);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .modal-actions button {
+            margin-top: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background">
+        <div class="main-card">
+
+            <div class="camera-section">
+                <div class="camera-box">
+                    <video id="video" autoplay playsinline></video>
+                    <img id="photo" style="display:none;" alt="Captured item">
+                </div>
+                <button id="captureBtn" class="btn-capture">CAPTURE PHOTO</button>
+            </div>
+
+            <div class="form-section">
+                <h1 class="page-title">Submit Item</h1>
+
+                <form id="submitForm" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Student Number</label>
+                        <input type="text" id="studentNumber" placeholder="e.g. 202400000SM0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="••••••••">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" id="itemName" placeholder="What did you find?">
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Category</label>
+                            <select id="category">
+                                <option value="">Select...</option>
+                                <option>Electronics & Gadgets</option>
+                                <option>Documents & School Supplies</option>
+                                <option>Clothing & Wearables</option>
+                                <option>Personal Valuables & Accessories</option>
+                                <option>Daily Essentials & Misc.</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Location</label>
+                            <select id="location">
+                                <option value="">Select Area...</option>
+                                <optgroup label="Open Areas">
+                                    <option>Hallway</option>
+                                    <option>Open Grounds</option>
+                                    <option>Kalesa</option>
+                                    <option>Gym</option>
+                                    <option>School Parking</option>
+                                    <option>Canteen</option>
+                                    <option>Student Lounge</option>
+                                </optgroup>
+                                    <optgroup label="1st Floor">
+                                    <option>AVR</option>
+                                    <option>Chem Lab</option>
+                                    <option>Com Lab 2</option>
+                                    <option>Com Lab 2</option>
+                                    <option>Library</option>
+                                    <option>Mini Hotel</option>
+                                    <option>Restrooms M Left</option>
+                                    <option>Restrooms F Left</option>
+                                    <option>Restrooms F Right</option>
+                                    </optgroup>
+                                    <optgroup label="2nd Floor">
+                                    <option>Rooms 201</option>
+                                    <option>Rooms 202</option>
+                                    <option>Rooms 203</option>
+                                    <option>Rooms 204</option>
+                                    <option>Rooms 205</option>
+                                    <option>Rooms 206</option>
+                                    <option>Rooms 207</option>
+                                    <option>Rooms 208</option>
+                                    <option>Rooms 209</option>
+                                    <option>Rooms 210</option>
+                                    <option>Veranda</option>
+                                    <option>Restroom M Left (2F)</option>
+                                    <option>Restroom F Left (2F)</option>
+                                    <option>Restroom M Right (2F)</option>
+                                    <option>Restroom F Right (2F)</option>>    
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="button" id="submitBtn" class="btn-submit">Process Submission</button>
+
+                    <button type="button" class="btn-cancel" onclick="location.href='index.html'">
+                        Cancel and return home
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirm Submission</h3>
+            <p style="color: var(--text-gray);">Ready to register this item in the digital log?</p>
+            
+            <div class="modal-actions">
+                <button id="confirmSubmitBtn">Confirm</button>
+                <button id="cancelSubmitBtn">Wait</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="receiptModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Submission Receipt</h3>
+            <div class="receipt-details">
+                <p><b>ID:</b> <span id="r_id"></span></p>
+                <p><b>Item:</b> <span id="r_name"></span></p>
+                <p><b>Type:</b> <span id="r_category"></span></p>
+                <p><b>Found at:</b> <span id="r_location"></span></p>
+                <p><b>Reporter:</b> <span id="r_student"></span></p>
+            </div>
+
+            <button id="goHomeBtn" onclick="location.href='index.html'">Finish & Return</button>
+        </div>
+    </div>
+
+    <script src="submit_logic.js"></script>
+
+</body>
+</html>
